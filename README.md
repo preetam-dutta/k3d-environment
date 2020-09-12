@@ -1,4 +1,4 @@
-# k3d-environment
+# K3D Development Environment Setup
 
 This is a PoC that demonstrates Kubernetes development environment setup on K3D. 
 This has been tested on Win10 with WSL and MacOS. It is supposed to work on Linux distributions.
