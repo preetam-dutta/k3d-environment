@@ -13,7 +13,7 @@ K3D is a lightweight Kubernetes distribution based on K3S. For details check ref
 # K3D installation
 
 ## MacOS
-For MacOS (and Linux distro) use [Homebrew|https://brew.sh/]
+For MacOS (and Linux distro) use https://brew.sh/
 
 ```
 brew install k3d
@@ -63,7 +63,7 @@ k3s version v1.18.6-k3s1 (default)
   --agents 2
 ```
 
-## Example of Kuberneter with customer Docker registries
+## Example of Kubernetes with custom Docker registries
 For using this example you would first need to setup the **registries.yaml** file, refer the section **Docker repository setup** on how to do it first. 
 
 ```
@@ -143,7 +143,7 @@ Pull, tag and push an image to the reposit
 ```
 >> docker pull nginx:latest
 >> docker tag nginx:latest registry.localhost:5000/nginx:latest
->> docker push docker tag nginx:latest registry.localhost:5000/nginx:latest
+>> docker push registry.localhost:5000/nginx:latest
 ```
 
 Delete the cached image
@@ -161,29 +161,31 @@ Once the local cache is deleted, pull the image from the local repo to ensure th
 
 ## Connect the local repository(or any private repo) to the Kubernetes cluster created by K3D
 
-### Create registries.yaml
+### Create k3d-registries.yaml
 
-On present working directory(or any other directory) create registries.yaml
+**NOTE** Ensure Docker For Desktop have access to the path where k3d-registries.yaml is located
+
+On present working directory(or any other directory) create k3d-registries.yaml
 
 ```
->> cat registries.yaml
+>> cat k3d-registries.yaml
 
 mirrors:
-  registry.localhost:
+  "registry.localhost":
     endpoint:
-	  - http://registry.localhost:5000
+      - http://registry.localhost:5000
 ```
 
 or, if you also want to connect to a private repo then -
 
 ```
->> cat registries.yaml
+>> cat k3d-registries.yaml
 
 mirrors:
-  registry.localhost:
+  "registry.localhost":
     endpoint:
-	  - http://registry.localhost:5000
-  your.private.repo.fqdn:
+      - http://registry.localhost:5000
+  "your.private.repo.fqdn":
     endpoint:
       - https://your.private.repo.fqdn
 
@@ -194,15 +196,15 @@ configs:
       password: <pass>
 ```
 
-### Start K3D cluster with registries.yaml
+### Start K3D cluster with k3d-registries.yaml
 
-Delete the cluster you have already created in the previous section (**optional** only if you have already create the cluster without registries.yaml setup)
+Delete the cluster you have already created in the previous section (**optional** only if you have already create the cluster without k3d-registries.yaml setup)
 
 ```
 >> k3d cluster delete <cluster-name>
 ```
 
-Execute the below command from the path where you have create the **registries.yaml** file
+Execute the below command from the path where you have create the **k3d-registries.yaml** file
 
 ```
 >> k3d cluster create <cluster-name> \
@@ -232,9 +234,7 @@ e.g. docker network connect k3d-<cluster-name> registry.localhost
 Verify the registry.localhost is listed in the k3d cluster's network
 
 ```
->> docker network list | grep <cluster-name>
-
->> docker network inspect <docker-network from precious command>
+>> docker network inspect k3d-<cluster-name>
 ```
 
 ### Test if a Pod is able to fetch image from the local regisry
@@ -271,3 +271,4 @@ kubectl apply -f pod.yaml
 # References
 - https://github.com/rancher/k3d
 - https://k3d.io/usage/guides/registries/
+- https://brew.sh/
