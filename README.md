@@ -3,10 +3,8 @@
 This is a PoC that demonstrates Kubernetes development environment setup on K3D. 
 This has been tested on Win10 with WSL and MacOS. It is supposed to work on Linux distributions.
 
-K3D is a lightweight Kubernetes distribution based on K3S. For details follow the below reference.
+K3D is a lightweight Kubernetes distribution based on K3S. For details check references section.
 
-## Reference
-- https://github.com/rancher/k3d
 
 # Pre-requisites
 - The pre-requisite is to have *Docker For Desktop* already setup either for Win10 (with Linux containers) or MacOS. 
@@ -215,6 +213,30 @@ Execute the below command from the path where you have create the **registries.y
   --agents 2
 ```
 
+### Bridge Registry Container and K3D cluster
+
+Get the cluster network
+
+```
+>> docker network list | grep <cluster-name>
+```
+
+Bridge the network
+
+```
+>> docker network connect <docker-network from previous command> registry.localhost
+
+e.g. docker network connect k3d-<cluster-name> registry.localhost
+```
+
+Verify the registry.localhost is listed in the k3d cluster's network
+
+```
+>> docker network list | grep <cluster-name>
+
+>> docker network inspect <docker-network from precious command>
+```
+
 ### Test if a Pod is able to fetch image from the local regisry
 
 Create a simple pod, that will use the image from the local repo
@@ -245,3 +267,7 @@ Test by running the pod, if all ok the pod will comeup
 ```
 kubectl apply -f pod.yaml
 ```
+
+# References
+- https://github.com/rancher/k3d
+- https://k3d.io/usage/guides/registries/
