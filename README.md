@@ -215,6 +215,14 @@ Execute the below command from the path where you have create the **k3d-registri
   --agents 2
 ```
 
+Example: 
+
+```
+k3d cluster create preet-cluster \
+  --k3s-server-arg --disable=traefik \
+  --servers 1 \
+  --agents 3
+```
 ### Bridge Registry Container and K3D cluster
 
 Get the cluster network

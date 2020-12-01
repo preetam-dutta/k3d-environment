@@ -4,7 +4,7 @@ metadata:
   name: simple-pod
 spec:
   containers:
-    - image: registry.localhost/nginx:latest
+    - image: registry.localhost/tomcat:latest
       name: simple-pod
       imagePullPolicy: IfNotPresent
       resources:
