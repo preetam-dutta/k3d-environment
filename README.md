@@ -141,22 +141,22 @@ Update /etc/host to point registries.yaml to 127.0.0.0, so that you can push ima
 Pull, tag and push an image to the reposit
 
 ```
->> docker pull nginx:latest
->> docker tag nginx:latest registry.localhost:5000/nginx:latest
->> docker push registry.localhost:5000/nginx:latest
+>> docker pull tomcat:latest
+>> docker tag tomcat:latest registry.localhost:5000/tomcat:latest
+>> docker push registry.localhost:5000/tomcat:latest
 ```
 
 Delete the cached image
 
 ```
->> docker image rm nginx:latest
->> docker image rm registry.localhost:5000/nginx:latest
+>> docker image rm tomcat:latest
+>> docker image rm registry.localhost:5000/tomcat:latest
 ```
 
 Once the local cache is deleted, pull the image from the local repo to ensure the Repository Container is working properly
 
 ```
->> docker pull registry.localhost:5000/nginx:latest
+>> docker pull registry.localhost:5000/tomcat:latest
 ```
 
 ## Connect the local repository(or any private repo) to the Kubernetes cluster created by K3D
@@ -258,7 +258,7 @@ metadata:
   name: simple-pod
 spec:
   containers:
-    - image: registry.localhost/nginx:latest
+    - image: registry.localhost/tomcat:latest
       name: simple-pod
       imagePullPolicy: IfNotPresent
       resources:
